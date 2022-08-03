@@ -46,6 +46,6 @@ workflows:
       - install-packages:
           requires:
             - setup-virtual-environment
-      - lint-code
+      - lint-code:
           requires:
             - install-packages
