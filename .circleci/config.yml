@@ -5,7 +5,7 @@ orbs:
 
 jobs:
     
-  setup-virtual-environment: 
+  setup-install-lint: 
     docker:
       - image: cimg/python:3.10.2
 
@@ -16,36 +16,10 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            
-  install-packages: 
-    docker:
-      - image: cimg/python:3.10.2
-
-    steps:
-      - checkout
-      - run:
-          name: install packages
-          command: |
-            . venv/bin/activate
             make install
-
-  lint-code: 
-    docker:
-      - image: cimg/python:3.10.2
-
-    steps:
-      - checkout
-      - run:
-          name: Run lint
-          command: make lint
+            make lint
 
 workflows:
   udacity-hello: 
     jobs:
-      - setup-virtual-environment
-      - install-packages:
-          requires:
-            - setup-virtual-environment
-      - lint-code:
-          requires:
-            - install-packages
+      - setup-install-lint
